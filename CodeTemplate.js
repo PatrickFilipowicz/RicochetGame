@@ -246,6 +246,7 @@ $(document).ready(function(){
 		if(degrees<0){
 			(degrees+=360);
 		}
+		ctx.fillText("Shoot = " + shoot, 800, 75);
 		ctx.fillText("Angle: " + Math.floor(degrees), 800,50);
 		ctx.fillText("MX: " + mx + " MY: "+my, 800,100);
 		ctx.fillText("# of collisions: "+ numberCollision,800,140);
