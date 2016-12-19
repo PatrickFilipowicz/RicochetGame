@@ -208,7 +208,7 @@ $(document).ready(function(){
 	///////////////////////////////////////////////////
 	function paint()
 	{
-		if(screen=1){
+		if(screen==1){
 		ctx.fillStyle = 'blue';
 		ctx.fillRect(0,0, w,h);
 
@@ -420,7 +420,9 @@ $(document).ready(function(){
 		if(key==50){//2
 		screen=2;
 		}
-
+		else if (key==49){
+			screen=1;
+		}
 
 
 
