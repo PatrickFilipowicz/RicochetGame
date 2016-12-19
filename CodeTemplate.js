@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	
+
 	document.body.onmousedown = function() { return false; } //so page is unselectable
 
 	//Canvas stuff
@@ -8,20 +8,20 @@ $(document).ready(function(){
 	var w = $("#canvas").width();//13000
 	var h = $("#canvas").height();//600
 	var mx, my;
-	
+
 	var timer=0;
 	var screen=1;
-	
-///////////////////////////////////////////////////////////////////////////	
+
+///////////////////////////////////////////////////////////////////////////
 	var gun={
 		x:40,
 		y:450,
 		w:120,
 		h:60
-	};	
+	};
 	var gunpic=new Image();
 ////////////
-	
+
 	var bullet={
 
 		x:313,
@@ -35,7 +35,7 @@ $(document).ready(function(){
 	var bulletpic=new Image();
 
 	//////////////////////////////////////////////////////////////////////////
-	
+
 	/*
 	var box1={//top
 		x:800,
@@ -61,7 +61,7 @@ $(document).ready(function(){
 		w:10,
 		h:50
 	};
-	
+
 	var bigBox={//overlay
 		x:box1.x,
 		y:box1.y,
@@ -73,27 +73,27 @@ $(document).ready(function(){
 		this.x=gun.x+gun.w;
 		this.y=gun.y+5;
 	}
-	
+
 	function rotatePoint(){
 		this.x= gun.x+gun.w;//back of gun no modifier
 		this.y=gun.y+(((gun.h)/2)-20)//middle of gun(Center)
 	}
-	
-	
+
+
 	var box=[];
-	
+
 	for(var i=0;i<10;i++){
 		box[i] = new boxSkel(500,150);
-		
+
 	}
 	function boxSkel(x,y,w,h){
 		this.x=x;
 		this.y=y;
 		this.w=w;
 		this.h=h;
-		
+
 		this.draw = function(){
-			
+
 			ctx.fillRect(this.x, this.y, 200, 30);
 		}
 		/*
@@ -109,36 +109,36 @@ $(document).ready(function(){
 		if(bullet.x>= box1.x && bullet.x <= (box1.x+box1.w) && (bullet.y >= box1.y-bullet.h) && (bullet.y<=box1.y+bullet.h)){//top
 			bullet.speedy*=-1;
 			numberCollision++;
-		
+
 		}if(bullet.x>= box2.x && bullet.x <= (box2.x+box2.w) && (bullet.y >= box2.y-bullet.h) && (bullet.y<=box2.y+bullet.h)){//bottom
 			bullet.speedy*=-1;
 			numberCollision++;
-		
+
 		}if(bullet.x>= box3.x-bullet.w && bullet.x <= (box3.x+box3.w) && (bullet.y >= box3.y-bullet.h) && (bullet.y<=box3.y+box4.h+5)){//left
 			bullet.speedx*=-1;
 			numberCollision++;
-		
+
 		}if(bullet.x>= box4.x-bullet.w && bullet.x <= (box4.x+box4.w) && (bullet.y >= box4.y) && (bullet.y<=box4.y+box4.h+5)){//right
 			bullet.speedx*=-1;
 			numberCollision++;
-		
+
 		}
 		*/
-		
+
 		function collider(){
-			
+
 			if(bullet.x>=box[0].x && bullet.x<=(box[0].x+box[0].w) && (bullet.y>=box[0].y-bullet.h)&&(bullet.y<=box[0].y+bullet.h)){
 				bullet.speedy*=-1;
 				numberCollision++;
-				
+
 			}if(bullet.x>=box[0].x && bullet.x<=(box[0].x+box[0].w) && (bullet.y<=box[0].y+box[0].h) && (bullet.y>=box[0].y+box[0].h)){
 				bullet.speedy*=-1;
 				numberCollision++;
-			
+
 		}
 		}
-	
-	
+
+
 
 
 
@@ -146,27 +146,27 @@ $(document).ready(function(){
 
 	var spawnPoint = new bSpawn()
 	var specPoint = new rotatePoint()
-	
-	
+
+
 	var maxbullets=1;
 	var allbullets=[];
-	
+
 	var angle;
 	var degrees;
-	
+
 	var shoot=false;
 	var collision=false;
 	var numberCollision=0;
 	var firstShot=true;
-	
-	
-	
+
+
+
 
 	/////////////////////////////////
 	////////////////////////////////
 	////////	GAME INIT
 	///////	Runs this code right away, as soon as the page loads.
-	//////	Use this code to get everything in order before your game starts 
+	//////	Use this code to get everything in order before your game starts
 	//////////////////////////////
 	/////////////////////////////
 	function init()
@@ -174,16 +174,16 @@ $(document).ready(function(){
 
 	//////////
 	///STATE VARIABLES
-	
+
 	bulletpic.src= 'Images/bullet.png';
 	gunpic.src='Images/gun.png';
 	muzzleFlash.src='Images/explosion.gif';
-	
-	bullet.x=gun.x+113; 
+
+	bullet.x=gun.x+113;
 	bullet.y=gun.y;
 //	bullet.x=spawnPoint.x;
 //	bullet.y=spawnPoint.y;
-	
+
 	//////////////////////
 	///GAME ENGINE START
 	//	This starts your game/program
@@ -195,12 +195,12 @@ $(document).ready(function(){
 		game_loop = setInterval(paint, 16.7);
 	}
 
-	init();	
-	
+	init();
 
 
-	
-	
+
+
+
 	///////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////
 	////////	Main Game Engine
@@ -214,34 +214,34 @@ $(document).ready(function(){
 
 		ctx.fillStyle = '#A9A9A9';
 		ctx.fillRect (10,10, w - 20, h - 20);
-		
-		
+
+
 		ctx.font='12pt Comic Sans';
-		
-		
+
+
 		if(shoot==true){
 			//ctx.drawImage(bulletpic,spawnPoint.x,spawnPoint.y,bullet.w,bullet.h);
 			ctx.drawImage(bulletpic,bullet.x,bullet.y,bullet.w,bullet.h);
-			
+
 			bullet.x=bullet.x+bullet.speedx;
 			bullet.y=bullet.y+bullet.speedy;
-			
+
 		}
-		
+
 		ctx.save();
 		ctx.translate(specPoint.x,specPoint.y);
 		ctx.rotate(angle)
 		ctx.fillStyle='black';
-		ctx.drawImage(gunpic,gun.x-specPoint.x,gun.y-specPoint.y,gun.w,gun.h);		
+		ctx.drawImage(gunpic,gun.x-specPoint.x,gun.y-specPoint.y,gun.w,gun.h);
 		ctx.restore();
-		
+
 		ctx.fillStyle= 'black';
-			
-		
-		
-     
+
+
+
+
 		angle = Math.atan2(my-specPoint.y,mx-specPoint.x);
-		
+
 		degrees = angle *(-180/Math.PI)
 		if(degrees<0){
 			(degrees+=360);
@@ -254,16 +254,16 @@ $(document).ready(function(){
 		ctx.fillText("Sx: " + Math.floor(bullet.speedx) + " SY: "+Math.floor(bullet.speedy), 800,260);
 		ctx.fillText("timer"+timer,100,100);
 		ctx.fillText("screen"+screen,100,200);
-		ctx.fillRect(w/2,h/2, 3,3);	
-		
+		ctx.fillRect(w/2,h/2, 3,3);
+
 		ctx.fillStyle='green';
-	
+
 		ctx.fillRect(0,0,w,5);
 		ctx.fillRect(0,0,5,h);
 		ctx.fillRect(0,h-5,w,5);
 		ctx.fillRect(w-5,0,5,h);
-		
-		
+
+
 		if(bullet.x>w-bullet.w||bullet.x<0){
 			shoot=true;
 			collision=true;
@@ -271,28 +271,28 @@ $(document).ready(function(){
 			bullet.speedx*=-1;
 
 		}
-		
+
 		if(bullet.y>h-bullet.h||bullet.y<0){
 			bullet.speedy*=-1;
 			shoot=true;
 			numberCollision++;
 		}
-		
+
 		if(numberCollision>=6){
-			bullet.x=gun.x+113; 
+			bullet.x=gun.x+113;
 			bullet.y=gun.y;
 			bullet.speedx=0;
 			bullet.speedy=0;
 			numberCollision=0;
 			shoot=false;
-		
-		
+
+
 		}
-		
-		
+
+
 		//collider();
 		ctx.fillStyle='black';
-		
+
 		//ctx.fillRect(bigBox.x,bigBox.y,bigBox.w,bigBox.h);
 		box[0].draw();
 		box[1].draw();
@@ -300,24 +300,24 @@ $(document).ready(function(){
 		box[3].draw();
 		box[4].draw();
 		box[5].draw();
-		
-		
+
+
 		if(shoot==true){
 		var animation = setInterval(function(){
 		timer++;
-	
+
 		}, 10);
 	}
-		
-		
+
+
 		if(timer>0&&timer<=10){
 			ctx.drawImage(muzzleFlash,gun.x+113,gun.y-15,50,50);
 			clearInterval(animation);
 		}
-		
-		
-		
-		
+
+
+
+
 		///////////////////////////////////////////////////////////////
 		}else if (screen==2){
 				ctx.fillStyle = 'blue';
@@ -325,24 +325,24 @@ $(document).ready(function(){
 
 		ctx.fillStyle = '#A9A9A9';
 		ctx.fillRect (10,10, w - 20, h - 20);
-		
-		
+
+
 		ctx.font='12pt Comic Sans';
-		
-	
-	
+
+
+
 	}
 	}////////////////////////////////////////////////////////////////////////////////END PAINT/ GAME ENGINE
-	
 
-	
-	
+
+
+
 	////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////
-	/////	MOUSE LISTENER 
+	/////	MOUSE LISTENER
 	//////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////
-	
+
 
 
 
@@ -353,35 +353,35 @@ $(document).ready(function(){
 	///////////////
 	canvas.addEventListener('click', function (evt){
 		if(screen==1){
-		
+
 			if(numberCollision==0){
-			shoot=true
+			shoot=true;
 			bullet.speedx=Math.cos(angle)*bullet.speed;
 			bullet.speedy=Math.sin(angle)*bullet.speed;
 			numberCollision++;
-		
-			
+
+
 		}else if(numberCollision==6){
 			shoot=false;
 			bullet.speedx=Math.cos(angle)*bullet.speed;
 			bullet.speedy=Math.sin(angle)*bullet.speed;
-	
-	
+
+
 		}
-		
-		
-	
+
+
+
 		box[5]=new boxSkel(mx,my);
-		
-		
+
+
 		}else if(screen==2){
-			
+
 		}
-	  
+
 	}, false);
 
-	
-	
+
+
 
 	canvas.addEventListener ('mouseout', function(){pause = true;}, false);
 	canvas.addEventListener ('mouseover', function(){pause = false;}, false);
@@ -395,7 +395,7 @@ $(document).ready(function(){
       	}, false);
 
 
-	function getMousePos(canvas, evt) 
+	function getMousePos(canvas, evt)
 	{
 	        var rect = canvas.getBoundingClientRect();
         	return {
@@ -403,7 +403,7 @@ $(document).ready(function(){
           		y: evt.clientY - rect.top
         		};
       	}
-      
+
 
 	///////////////////////////////////
 	//////////////////////////////////
@@ -411,25 +411,25 @@ $(document).ready(function(){
 	////////////////////////////////
 
 
-	
+
 
 	window.addEventListener('keydown', function(evt){
 		var key = evt.keyCode;
-		
-		
+
+
 		if(key==50){//2
 		screen=2;
 		}
-		
-		
-		
-		
+
+
+
+
 	//p 80
 	//r 82
 	//1 49
 	//2 50
 	//3 51
-		
+
 	}, false);
 
 
