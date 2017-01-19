@@ -206,7 +206,7 @@ $(document).ready(function(){
 		}
 		*/
 		}
-
+}
 
 		if(bullet.x>=w-bullet.w||bullet.x<=0){//Screen Boundaries
 			numberCollision++;
@@ -222,7 +222,7 @@ $(document).ready(function(){
 
 
 		}
-}
+
 
 
 
