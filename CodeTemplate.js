@@ -10,8 +10,9 @@ $(document).ready(function(){
 	var mx, my;
 
 	var timer=0;
-	var screen=1;
-
+	var screen=0;
+	var nombre=0;
+	var maxCollisions = 10;
 ///////////////////////////////////////////////////////////////////////////
 	var gun={
 		x:40,
@@ -26,53 +27,22 @@ $(document).ready(function(){
 
 		x:313,
 		y:300,
-		w: 15,
-		h: 15,
+		w: 10,
+		h: 10,
 		speed:10,
 		speedx:0,
 		speedy:0
+
 	};
 	var bulletpic=new Image();
 
+
+
+
+
 	//////////////////////////////////////////////////////////////////////////
 
-	/*
-	var box1={//top
-		x:800,
-		y:200,
-		w:250,
-		h:10
-	};
-	var box2={//bottom
-		x:800,
-		y:250,
-		w:250,
-		h:10
-	};
-	var box3={//left
-		x:800,
-		y:200,
-		w:10,
-		h:50
-	};
-	var box4={//right
-		x:1050,
-		y:200,
-		w:10,
-		h:50
-	};
 
-	var bigBox={//overlay
-		x:box1.x,
-		y:box1.y,
-		w:box1.w+10,
-		h: box3.h+10
-	};
-	*/
-		function bSpawn(){
-		this.x=gun.x+gun.w;
-		this.y=gun.y+5;
-	}
 
 	function rotatePoint(){
 		this.x= gun.x+gun.w;//back of gun no modifier
@@ -83,7 +53,7 @@ $(document).ready(function(){
 	var box=[];
 
 	for(var i=0;i<10;i++){
-		box[i] = new boxSkel(500,150);
+		box[i] = new boxSkel();
 
 	}
 	function boxSkel(x,y,w,h){
@@ -96,60 +66,193 @@ $(document).ready(function(){
 
 			ctx.fillRect(this.x, this.y, 200, 30);
 		}
-		/*
-		ctx.fillRect(box1.x,box1.y,box1.w,box1.h);//top
-		ctx.fillRect(box2.x,box2.y,box2.w,box2.h);//bottom
-		ctx.fillRect(box3.x,box3.y,box3.w,box3.h);//left
-		ctx.fillRect(box4.x,box4.y,box4.w,box4.h);//right
-		*/
 		}
 
 		/*
 		function collider(){
-		if(bullet.x>= box1.x && bullet.x <= (box1.x+box1.w) && (bullet.y >= box1.y-bullet.h) && (bullet.y<=box1.y+bullet.h)){//top
+			for(var i=0;i<10;i++){
+		if(bullet.x>= box[i].x && bullet.x <= (box[i].x+200) && (bullet.y >= box[i].y-bullet.h) && (bullet.y<=box[i].y+bullet.h)){//top
 			bullet.speedy*=-1;
 			numberCollision++;
 
-		}if(bullet.x>= box2.x && bullet.x <= (box2.x+box2.w) && (bullet.y >= box2.y-bullet.h) && (bullet.y<=box2.y+bullet.h)){//bottom
+
+		}if(bullet.x>= box[i].x && bullet.x <= (box[i].x+205) && (bullet.y >= box[i].y-bullet.h+30) && (bullet.y<=box[i].y+35)){//bottom
 			bullet.speedy*=-1;
 			numberCollision++;
 
-		}if(bullet.x>= box3.x-bullet.w && bullet.x <= (box3.x+box3.w) && (bullet.y >= box3.y-bullet.h) && (bullet.y<=box3.y+box4.h+5)){//left
+
+		}if(bullet.x>= box[i].x-bullet.w && bullet.x <= (box[i].x+bullet.w/2) && (bullet.y >= box[i].y) && (bullet.y<=box[i].y+30)){//left
 			bullet.speedx*=-1;
 			numberCollision++;
 
-		}if(bullet.x>= box4.x-bullet.w && bullet.x <= (box4.x+box4.w) && (bullet.y >= box4.y) && (bullet.y<=box4.y+box4.h+5)){//right
+
+		}if(bullet.x>= box[i].x+200-bullet.w && bullet.x <= (box[i].x+200+bullet.w) && (bullet.y >= box[i].y-bullet.h) && (bullet.y<=box[i].y+25)){//right
 			bullet.speedx*=-1;
 			numberCollision++;
 
+		}
+		}
+		}
+
+		*/
+		/*
+		function collider(){
+			for(var i=0;i<10;i++){
+		if(bullet.x>= box[i].x +5 && bullet.x <= (box[i].x+195) && (bullet.y >=box[i].y-10) &&(bullet.y<=box[i].y+10)){//top
+			bullet.speedy*=-1;
+			numberCollision++;
+
+
+
+
+		}if(bullet.x>= box[i].x +5 && bullet.x <= (box[i].x+195) && (bullet.y >= box[i].y+20)&&(bullet.y <= box[i].y+40)){//bottom
+			bullet.speedy*=-1;
+			numberCollision++;
+
+
+
+		}if(bullet.x>= box[i].x-5 && bullet.x<=box[i].x+5&& (bullet.y >= box[i].y+10) && (bullet.y<=box[i].y+30)){//left
+			bullet.speedx*=-1;
+			numberCollision++;
+
+
+		}if(bullet.x>= box[i].x+195 && bullet.x<=box[i].x+205 && (bullet.y >= box[i].y+10) && (bullet.y<=box[i].y+30)){//right
+			bullet.speedx*=-1;
+			numberCollision++;
+
+		}
+
+		/////
+		if(bullet.x>= box[i].x  && bullet.x <= (box[i].x+bullet.w) && (bullet.y >=box[i].y) &&(bullet.y<=box[i].y+bullet.h)){//top left corner
+			bullet.speedy*=-1;
+			bullet.speedx*=-1;
+			numberCollision++;
+			console.log("top left corner")
+		}
+			if(bullet.x>= box[i].x+200-bullet.w && bullet.x <= (box[i].x+200) && (bullet.y >=box[i].y) &&(bullet.y<=box[i].y+bullet.h)){//top right corner
+			bullet.speedy*=-1;
+			bullet.speedx*=-1;
+			numberCollision++;
+			console.log("top right corner")
+		}
+			if(bullet.x>= box[i].x  && bullet.x <= (box[i].x+bullet.w) && (bullet.y >=box[i].y-bullet.h) &&(bullet.y<=box[i].y)){//bot left corner
+			bullet.speedy*=-1;
+			bullet.speedx*=-1;
+			numberCollision++;
+			console.log("bot left corner")
+		}
+		if(bullet.x>= box[i].x+200  && bullet.x <= (box[i].x+200+bullet.w) && (bullet.y >=box[i].y-bullet.h) &&(bullet.y<=box[i].y)){//bot right corner
+			bullet.speedy*=-1;
+			bullet.speedx*=-1;
+			numberCollision++;
+			console.log("bot right corner")
+		}
+
+
+		}
 		}
 		*/
 
+
 		function collider(){
+			for(var i=0;i<10;i++){
+		if(bullet.x>= box[i].x+bullet.w && bullet.x <= (box[i].x+200-bullet.w) && (bullet.y >= box[i].y-bullet.h) && (bullet.y<=box[i].y)){//top
+			bullet.speedy*=-1;
+			numberCollision++;
+			console.log("top")
 
-			if(bullet.x>=box[0].x && bullet.x<=(box[0].x+box[0].w) && (bullet.y>=box[0].y-bullet.h)&&(bullet.y<=box[0].y+bullet.h)){
-				bullet.speedy*=-1;
-				numberCollision++;
+		}if(bullet.x>= box[i].x+bullet.w && bullet.x <= (box[i].x+200-bullet.w) && (bullet.y >= box[i].y-bullet.h+30) && (bullet.y<=box[i].y+30)){//bottom
+			bullet.speedy*=-1;
+			numberCollision++;
+			console.log("bottom")
 
-			}if(bullet.x>=box[0].x && bullet.x<=(box[0].x+box[0].w) && (bullet.y<=box[0].y+box[0].h) && (bullet.y>=box[0].y+box[0].h)){
-				bullet.speedy*=-1;
-				numberCollision++;
+
+		}if(bullet.x>= box[i].x-bullet.w && bullet.x <=box[i].x && (bullet.y >= box[i].y+bullet.h) && (bullet.y<=box[i].y+30-bullet.h)){//left
+			bullet.speedx*=-1;
+			numberCollision++;
+			console.log("left")
+
+		}if(bullet.x>= box[i].x+200-bullet.w && bullet.x <= box[i].x+200 && (bullet.y >= box[i].y+bullet.h) && (bullet.y<=box[i].y+30-bullet.h)){//right
+			bullet.speedx*=-1;
+			numberCollision++;
+			console.log("right")
+
+///////////////////////////////////////////////////////////////////////////////
+
+/*
+		}if(bullet.x>= box[i].x  && bullet.x <= (box[i].x+bullet.w) && (bullet.y >=box[i].y) &&(bullet.y<=box[i].y+bullet.h)){//top left corner
+			bullet.speedy*=-1;
+			bullet.speedx*=-1;
+			numberCollision++;
+			console.log("top left corner")
+		}
+			if(bullet.x>= box[i].x+200-bullet.w && bullet.x <= (box[i].x+200) && (bullet.y >=box[i].y) &&(bullet.y<=box[i].y+bullet.h)){//top right corner
+			bullet.speedy*=-1;
+			bullet.speedx*=-1;
+			numberCollision++;
+			console.log("top right corner")
+		}
+			if(bullet.x>= box[i].x  && bullet.x <= (box[i].x+bullet.w) && (bullet.y >=box[i].y-bullet.h+30) &&(bullet.y<=box[i].y+30)){//bot left corner
+			bullet.speedy*=-1;
+			bullet.speedx*=-1;
+			numberCollision++;
+			console.log("bot left corner")
+		}
+		if(bullet.x>= box[i].x+200  && bullet.x <= (box[i].x+200+bullet.w) && (bullet.y >=box[i].y-bullet.h+30) &&(bullet.y<=box[i].y+30)){//bot right corner
+			bullet.speedy*=-1;
+			bullet.speedx*=-1;
+			numberCollision++;
+			console.log("bot right corner")
+		}
+		*/
+		}
+
+
+		if(bullet.x>=w-bullet.w||bullet.x<=0){//Screen Boundaries
+			numberCollision++;
+			bullet.speedx*=-1;
 
 		}
+
+		if(bullet.y>=h-bullet.h||bullet.y<=0){//Screen Boundaries
+			numberCollision++;
+			bullet.speedy*=-1;
 		}
 
 
 
+		}
+}
 
+
+
+
+
+
+
+
+
+	function Mover(){
+
+		this.sx = 5;
+		this.sy = 5;
+
+		this.move = function(){
+			this.x += this.sx;
+			this.y += this.sy;
+		}
+	}
+
+
+	var Gary = new Mover();
+
+
+	Gary.x = 200;
+	Gary.move();
 
 	var muzzleFlash= new Image();
-
-	var spawnPoint = new bSpawn()
 	var specPoint = new rotatePoint()
-
-
-	var maxbullets=1;
-	var allbullets=[];
+	var CityBackground= new Image();
 
 	var angle;
 	var degrees;
@@ -157,7 +260,8 @@ $(document).ready(function(){
 	var shoot=false;
 	var collision=false;
 	var numberCollision=0;
-	var firstShot=true;
+
+
 
 
 
@@ -178,11 +282,11 @@ $(document).ready(function(){
 	bulletpic.src= 'Images/bullet.png';
 	gunpic.src='Images/gun.png';
 	muzzleFlash.src='Images/explosion.gif';
+	CityBackground.src='Images/CityBackground.png';
 
 	bullet.x=gun.x+113;
 	bullet.y=gun.y;
-//	bullet.x=spawnPoint.x;
-//	bullet.y=spawnPoint.y;
+
 
 	//////////////////////
 	///GAME ENGINE START
@@ -192,7 +296,7 @@ $(document).ready(function(){
 	//	Once you choose a good speed for your program, you will never need to update this file ever again.
 
 	if(typeof game_loop != "undefined") clearInterval(game_loop);
-		game_loop = setInterval(paint, 16.7);
+		game_loop = setInterval(paint, 16.67);//16.67 = 60 FPS
 	}
 
 	init();
@@ -206,21 +310,72 @@ $(document).ready(function(){
 	////////	Main Game Engine
 	////////////////////////////////////////////////////
 	///////////////////////////////////////////////////
-	function paint()
-	{
-		if(screen==1){
-		ctx.fillStyle = 'blue';
+	function paint(){
+
+		if(screen==0){//Main Menu
+		ctx.textAlign = "center";
+		ctx.font='40pt Verdana';
+		ctx.fillStyle = '#2F4F4F';
 		ctx.fillRect(0,0, w,h);
 
 		ctx.fillStyle = '#A9A9A9';
-		ctx.fillRect (10,10, w - 20, h - 20);
+		ctx.fillRect (5,5, w - 10, h - 10);
+
+		ctx.fillStyle= 'black';
+		ctx.fillText("Ricochet Raze",w/2,100)
+
+		ctx.fillStyle='#696969'
+		ctx.fillRect(w/2-150,175,300,75);
+		ctx.font='25pt Verdana';
+		ctx.fillStyle='black';
+		ctx.fillText("PLAY",w/2,225);
+
+		if((mx>=(w/2-150)&&mx<=(w/2+150))&&(my>=175&&my<=250)){
+		ctx.fillStyle='black'
+		ctx.fillRect(w/2-152,173,304,79);
+		ctx.fillStyle='#696969'
+		ctx.fillRect(w/2-150,175,300,75);
+		ctx.font='25pt Verdana';
+		ctx.fillStyle='#DCDCDC';
+		ctx.fillText("PLAY",w/2,225);
+		}
+
+		ctx.fillStyle='#696969'
+		ctx.fillRect(w/2-150,275,300,75);
+		ctx.font='25pt Verdana';
+		ctx.fillStyle='black';
+		ctx.fillText("INSTRUCTIONS",w/2,325);
+
+		if((mx>=(w/2-150)&&mx<=(w/2+150))&&(my>=275&&my<=350)){
+		ctx.fillStyle='black'
+		ctx.fillRect(w/2-152,273,304,79);
+		ctx.fillStyle='#696969'
+		ctx.fillRect(w/2-150,275,300,75);
+		ctx.font='25pt Verdana';
+		ctx.fillStyle='#DCDCDC';
+		ctx.fillText("INSTRUCTIONS",w/2,325);
+
+		}
+
+		}
 
 
-		ctx.font='12pt Comic Sans';
+		if(screen==1){
+			ctx.font='12pt Comic Sans';
+		ctx.fillStyle = '#2F4F4F';
+		ctx.fillRect(0,0, w,h);
+
+		ctx.drawImage (CityBackground,5,5, w - 10, h - 10);
+
+		ctx.fillRect(0,0,w,5);
+		ctx.fillRect(0,0,5,h);
+		ctx.fillRect(0,h-5,w,5);
+		ctx.fillRect(w-5,0,5,h);
+
 
 
 		if(shoot==true){
-			//ctx.drawImage(bulletpic,spawnPoint.x,spawnPoint.y,bullet.w,bullet.h);
+
 			ctx.drawImage(bulletpic,bullet.x,bullet.y,bullet.w,bullet.h);
 
 			bullet.x=bullet.x+bullet.speedx;
@@ -230,7 +385,7 @@ $(document).ready(function(){
 
 		ctx.save();
 		ctx.translate(specPoint.x,specPoint.y);
-		ctx.rotate(angle)
+		ctx.rotate(angle);
 		ctx.fillStyle='black';
 		ctx.drawImage(gunpic,gun.x-specPoint.x,gun.y-specPoint.y,gun.w,gun.h);
 		ctx.restore();
@@ -246,40 +401,22 @@ $(document).ready(function(){
 		if(degrees<0){
 			(degrees+=360);
 		}
-		ctx.fillText("Shoot = " + shoot, 800, 75);
 		ctx.fillText("Angle: " + Math.floor(degrees), 800,50);
-		ctx.fillText("MX: " + mx + " MY: "+my, 800,100);
+		ctx.fillText("MX: " + Math.floor(mx) + " MY: "+Math.floor(my), 800,100);
 		ctx.fillText("# of collisions: "+ numberCollision,800,140);
 		ctx.fillText("bullet.x "+Math.floor(bullet.x)+" bullet.y "+Math.floor(bullet.y),800,180);
-		ctx.fillText("spawnPoint.x: "+Math.floor(spawnPoint.x)+" spawnPoint.y: "+Math.floor(spawnPoint.y),800,220);
 		ctx.fillText("Sx: " + Math.floor(bullet.speedx) + " SY: "+Math.floor(bullet.speedy), 800,260);
 		ctx.fillText("timer"+timer,100,100);
 		ctx.fillText("screen"+screen,100,200);
+		ctx.fillText("shoot "+shoot,100,300);
 		ctx.fillRect(w/2,h/2, 3,3);
 
-		ctx.fillStyle='green';
-
-		ctx.fillRect(0,0,w,5);
-		ctx.fillRect(0,0,5,h);
-		ctx.fillRect(0,h-5,w,5);
-		ctx.fillRect(w-5,0,5,h);
 
 
-		if(bullet.x>w-bullet.w||bullet.x<0){
-			shoot=true;
-			collision=true;
-			numberCollision++;
-			bullet.speedx*=-1;
 
-		}
 
-		if(bullet.y>h-bullet.h||bullet.y<0){
-			bullet.speedy*=-1;
-			shoot=true;
-			numberCollision++;
-		}
 
-		if(numberCollision>=6){
+		if(numberCollision>maxCollisions){
 			bullet.x=gun.x+113;
 			bullet.y=gun.y;
 			bullet.speedx=0;
@@ -290,50 +427,71 @@ $(document).ready(function(){
 
 		}
 
-
-		//collider();
 		ctx.fillStyle='black';
 
-		//ctx.fillRect(bigBox.x,bigBox.y,bigBox.w,bigBox.h);
-		box[0].draw();
-		box[1].draw();
-		box[2].draw();
-		box[3].draw();
-		box[4].draw();
-		box[5].draw();
+
+		for(var i=0;i<box.length;i++){//draw boxes
+			box[i].draw();
+		}
 
 
-		if(shoot==true){
-		var animation = setInterval(function(){
-		timer++;
 
-		}, 10);
+	collider();
+
+
+
+
+		}
+		///////////////////////////////////////////////////////////////
+		if (screen==2){
+			ctx.fillStyle = 'blue';
+			ctx.fillRect(0,0, w,h);
+
+
+			ctx.drawImage (CityBackground,5,5, w - 10, h - 10);
+
+			ctx.fillStyle = 'black';
+			ctx.font = '15pt Arial';
+			ctx.fillText("Click to add a block to the map!", 200, 100);
+
+			ctx.font='12pt Comic Sans';
+			ctx.fillStyle='black';
+
+			ctx.fillRect(mx-100,my-15,200,30);
+
+
+
+		for(var i=0;i<box.length;i++){//draw boxes
+			box[i].draw();
+		}
+
+
 	}
 
 
-		if(timer>0&&timer<=10){
-			ctx.drawImage(muzzleFlash,gun.x+113,gun.y-15,50,50);
-			clearInterval(animation);
+		if(screen==3){
+		ctx.textAlign = "center";
+		ctx.font='25pt Verdana';
+		ctx.fillStyle='black';
+		ctx.fillRect(w/2-235,h/2-185, 470,370);
+		ctx.fillStyle = '#2F4F4F';
+		ctx.fillRect(w/2-225,h/2-175, 450,350);
+		ctx.fillStyle='black';
+		ctx.fillText("PAUSED",w/2,170);
 		}
 
 
 
 
-		///////////////////////////////////////////////////////////////
-		}else if (screen==2){
-				ctx.fillStyle = 'blue';
-		ctx.fillRect(0,0, w,h);
-
-		ctx.fillStyle = '#A9A9A9';
-		ctx.fillRect (10,10, w - 20, h - 20);
 
 
-		ctx.font='12pt Comic Sans';
+
+
 
 
 
 	}
-	}////////////////////////////////////////////////////////////////////////////////END PAINT/ GAME ENGINE
+	////////////////////////////////////////////////////////////////////////////////END PAINT/ GAME ENGINE
 
 
 
@@ -353,35 +511,80 @@ $(document).ready(function(){
 	// Mouse Click
 	///////////////
 	canvas.addEventListener('click', function (evt){
-		if(screen==1){
+		if(screen==0){
 
-			if(numberCollision==0){
-			shoot=true;
-			bullet.speedx=Math.cos(angle)*bullet.speed;
-			bullet.speedy=Math.sin(angle)*bullet.speed;
-			numberCollision++;
-
-
-		}else if(numberCollision==6){
-			shoot=false;
-			bullet.speedx=Math.cos(angle)*bullet.speed;
-			bullet.speedy=Math.sin(angle)*bullet.speed;
-
-
+			if((mx>=(w/2-150)&&mx<=(w/2+150))&&(my>=200&&my<=275)){
+				screen=1
+			}
 		}
 
 
 
-		box[5]=new boxSkel(mx,my);
 
 
-		}else if(screen==2){
+		if(screen==2){
+
+		if(nombre==0){
+				box[0]=new boxSkel(mx-100,my-15);
+				nombre++;
+		}else if(nombre==1){
+				box[1]=new boxSkel(mx-100,my-15);
+				nombre++;
+		}else if(nombre==2){
+				box[2]=new boxSkel(mx-100,my-15);
+				nombre++;
+		}else if(nombre==3){
+				box[3]=new boxSkel(mx-100,my-15);
+				nombre++;
+		}else if(nombre==4){
+				box[4]=new boxSkel(mx-100,my-15);
+				nombre++;
+		}else if(nombre==5){
+				box[5]=new boxSkel(mx-100,my-15);
+				nombre++;
+		}else if(nombre==6){
+				box[6]=new boxSkel(mx-100,my-15);
+				nombre++;
+		}else if(nombre==7){
+				box[7]=new boxSkel(mx-100,my-15);
+				nombre++;
+		}else if(nombre==8){
+				box[8]=new boxSkel(mx-100,my-15);
+				nombre++;
+		}else if(nombre==9){
+				box[9]=new boxSkel(mx-100,my-15);
+				nombre++;
+		}
+
+
+
+
+
+
+
 
 		}
 
 	}, false);
 
+	canvas.addEventListener('mousedown', function (evt){
+	if(screen==1){
 
+
+
+			if(numberCollision==0){
+			shoot=true
+			bullet.speedx=Math.cos(angle)*bullet.speed;
+			bullet.speedy=Math.sin(angle)*bullet.speed;
+			numberCollision++;
+
+
+		}else if(numberCollision==maxCollisions+1){
+			shoot=false;
+
+		}
+	}
+	},false);
 
 
 	canvas.addEventListener ('mouseout', function(){pause = true;}, false);
@@ -416,14 +619,28 @@ $(document).ready(function(){
 
 	window.addEventListener('keydown', function(evt){
 		var key = evt.keyCode;
-
+		if (key==49){
+			screen=1;
+		}
 
 		if(key==50){//2
 		screen=2;
 		}
-		else if (key==49){
-			screen=1;
+		if(key==82){//r
+		numberCollision=maxCollisions+1;
 		}
+
+		if(screen==1||screen==2){
+			if(key==80){//p
+				screen=3;
+			}
+		}
+
+
+
+
+
+
 
 
 
