@@ -221,7 +221,7 @@ $(document).ready(function(){
 
 
 
-		}
+	}
 
 
 
@@ -633,7 +633,12 @@ $(document).ready(function(){
 		if(screen==1||screen==2){
 			if(key==80){//p
 				screen=3;
+				hhsdfhsf();
 			}
+
+		}
+		if(screen==3 && key==80){
+			screen=1;
 		}
 
 
